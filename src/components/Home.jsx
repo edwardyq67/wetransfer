@@ -67,7 +67,7 @@ const ImgPais = ({ pais }) => {
           alt={`Imagen de ${pais}`}
           width="300"
           height="300"
-          className="rounded-t-lg w-[300px] h-[180px]"
+          className="rounded-t-lg w-[280px] sm:w-[300px] h-[180px]"
         />
       )}
     </div>
@@ -167,28 +167,28 @@ console.log(valorDatoSearch)
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="flex flex-col gap-5 px-4 py-5 w-[100vw]">
+    <div className="flex flex-col gap-5 px-4 py-5 overflow-x-hidden w-screen">
       <div
         ref={boxRef}
         onClick={() => stadoFiltadorContinente()}
         className="relative w-full md:w-[60vw] mx-auto"
       >
-        <form onSubmit={handleSubmit} className="flex items-center bg-white shadow-lg rounded-2xl justify-between px-4 py-2 ">
-          <div className="flex flex-col justify-center">
+        <form onSubmit={handleSubmit} className="flex items-center bg-white shadow-lg rounded-2xl justify-between px-2 sm:px-4 py-1 sm:py-2 ">
+          <div className="flex flex-col justify-center sm:w-full w-36 ">
             <label
               htmlFor="pais"
-              className="text-primario-500 font-semibold text-lg"
+              className="text-primario-500 font-semibold  text-lg"
             >
               País
             </label>
             <input
-              className="bg-transparent w-auto md:w-80 focus:outline-none z-20"
+              className="bg-transparent focus:outline-none z-20"
               name="pais"
               id="pais"
               type="text"
               value={valorPais}
               onChange={(e) => setValosPais(e.target.value)}
-              placeholder="Escribe el pais que deseas ver"
+              placeholder="Escribe el pais "
               autoComplete="off"
             />
           </div>
@@ -254,7 +254,7 @@ console.log(valorDatoSearch)
             className="flex flex-col items-center"
           >
             <ImgPais pais={country.name} />
-            <div className="flex  gap-4 w-[300px] bg-white cursor-pointer p-3 rounded-b-2xl">
+            <div className="flex gap-2 md:gap-4 w-[280px] sm:w-[300px] bg-white cursor-pointer p-3 rounded-b-2xl">
               <picture className="flex items-center min-w-14">
                 <img
                   src={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png`}
