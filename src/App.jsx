@@ -11,7 +11,7 @@ function AppContent() {
   const { pathname } = useLocation();
   const ubicacion = pathname.split("/").pop().toUpperCase() || "HOME";
   return (
-    <div className="flex h-screen overflow-x-hidden">
+    <div className="flex h-screen max-w-[100vw]">
       
       <button
         onClick={() => setIsOpen(true)}

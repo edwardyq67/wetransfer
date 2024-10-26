@@ -4,21 +4,21 @@ import { IoClose } from "react-icons/io5";
 function IdHome({ country, setIsDrawerOpen, ImgPais }) {
   if (!country || !country.code) return null;
 
-
   return (
-    <div className='flex flex-col '>
+    <div className='flex flex-col px-2'>
         <div onClick={()=>setIsDrawerOpen(false)} className=' p-2 flex justify-end text-lg text-primario-700 cursor-pointer'>
            <IoClose /> 
         </div>
         
       <ImgPais pais={country.name} />
-      <div className="flex gap-1  bg-white rounded-b-2xl py-2">
+      <div className="flex gap-1  bg-white rounded-2xl py-2">
               <picture className="flex items-center min-w-14">
                 <img
                   src={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png`}
                   alt={`Bandera de ${country.name}`}
                   width="50"
                   height="40"
+                  className='rounded-lg'
                 />
               </picture>
 

@@ -100,7 +100,7 @@ function Home() {
       img: Asia,
     },
     {
-      code: "AM",
+      code: "SA",
       name: "South America",
       img: America,
     },
@@ -124,9 +124,10 @@ function Home() {
         : [...prevSelected, code]
     );
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    const nuevoValorData =  data
+    
+    const nuevoValorData = await data
       ? data.countries.filter(
           (country) =>
             country.name.toLowerCase().includes(valorPais.toLowerCase()) &&
@@ -135,7 +136,8 @@ function Home() {
         )
       : [];
     
-      setValorDatoSearch(nuevoValorData); // Aquí puedes manejar los datos como prefieras
+     await setValorDatoSearch(nuevoValorData); 
+     await setActivarFiltradoContinentes(false)
   };
   useEffect(() => {
     // Verifica que data y data.countries estén definidos
@@ -143,7 +145,7 @@ function Home() {
       setValorDatoSearch(data.countries);
     }
   }, [data]);
-
+console.log(valorDatoSearch)
   const stadoFiltadorContinente = () => {
     setActivarFiltradoContinentes(true);
   };
@@ -275,7 +277,7 @@ function Home() {
         ))}
       </ul>
       <div
-        className={`fixed bottom-0 right-0 z-40 h-[100vh] sm:h-[90vh] overflow-y-hidden p-4 md:px-6 transition-transform rounded-tl-lg bg-white w-80 ${
+        className={`fixed bottom-0 right-0 z-40 h-[90vh] overflow-y-hidden  transition-transform rounded-tl-lg bg-white w-80 ${
           isDrawerOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
