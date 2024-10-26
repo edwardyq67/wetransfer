@@ -13,14 +13,6 @@ function AppContent() {
   return (
     <div className="flex h-screen max-w-[100vw]">
       
-      <button
-        onClick={() => setIsOpen(true)}
-        className="text-white md:hidden w-10 bg-primario-500 rounded-r-md text-sm focus:outline-none"
-      >
-        <b className="-rotate-90 inline-block">{ubicacion}</b>
-      </button>
-
-     
       <div
         className={`fixed top-0 left-0 z-50 w-80 h-screen p-4 overflow-y-auto transition-transform bg-primario-500 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
