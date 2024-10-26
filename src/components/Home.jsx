@@ -45,11 +45,11 @@ const ImgPais = ({ pais }) => {
         const res = await axios.get(
           `https://pixabay.com/api/?key=${key}&q=${pais}&image_type=photo`
         );
-      
+
         if (res.data.hits.length > 0) {
           setImgDelPais(res.data.hits[3].webformatURL);
         } else {
-          setImgDelPais(""); 
+          setImgDelPais("");
         }
       } catch (error) {
         console.error("Error fetching image:", error);
@@ -60,22 +60,21 @@ const ImgPais = ({ pais }) => {
   }, [pais]);
 
   return (
-    <div className="">
-      {imgDelPais && (
+    <div className="w-[280px] sm:w-[300px] h-[180px] rounded-t-lg">
+      {imgDelPais ? (
         <img
           src={imgDelPais}
           alt={`Imagen de ${pais}`}
-          width="300"
-          height="300"
-          className="rounded-t-lg w-[280px] sm:w-[300px] h-[180px]"
+          className="w-full h-full rounded-t-lg"
         />
+      ) : (
+        <div className="w-full h-full bg-gray-300 rounded-t-lg" />
       )}
     </div>
   );
 };
 
 function Home() {
- 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [activarFiltradoContinentes, setActivarFiltradoContinentes] =
@@ -87,7 +86,7 @@ function Home() {
   };
   const [valorPais, setValosPais] = useState("");
   const { loading, error, data } = useQuery(GET_COUNTRIES);
-  const [valorDatoSearch,setValorDatoSearch]=useState([])
+  const [valorDatoSearch, setValorDatoSearch] = useState([]);
   const filtroCotinente = [
     {
       code: "EU",
@@ -124,10 +123,10 @@ function Home() {
         : [...prevSelected, code]
     );
   };
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const nuevoValorData = await data
+
+    const nuevoValorData = (await data)
       ? data.countries.filter(
           (country) =>
             country.name.toLowerCase().includes(valorPais.toLowerCase()) &&
@@ -135,17 +134,16 @@ function Home() {
               selectedContinents.includes(country.continent.code))
         )
       : [];
-    
-     await setValorDatoSearch(nuevoValorData); 
-     await setActivarFiltradoContinentes(false)
+
+    await setValorDatoSearch(nuevoValorData);
+    await setActivarFiltradoContinentes(false);
   };
   useEffect(() => {
-    // Verifica que data y data.countries estén definidos
     if (data && data.countries) {
       setValorDatoSearch(data.countries);
     }
   }, [data]);
-console.log(valorDatoSearch)
+  console.log(valorDatoSearch);
   const stadoFiltadorContinente = () => {
     setActivarFiltradoContinentes(true);
   };
@@ -173,7 +171,10 @@ console.log(valorDatoSearch)
         onClick={() => stadoFiltadorContinente()}
         className="relative w-full md:w-[60vw] mx-auto"
       >
-        <form onSubmit={handleSubmit} className="flex items-center bg-white shadow-lg rounded-2xl justify-between px-2 sm:px-4 py-1 sm:py-2 ">
+        <form
+          onSubmit={handleSubmit}
+          className="flex items-center bg-white shadow-lg rounded-2xl justify-between px-2 sm:px-4 py-1 sm:py-2 "
+        >
           <div className="flex flex-col justify-center sm:w-full w-36 ">
             <label
               htmlFor="pais"
@@ -192,15 +193,14 @@ console.log(valorDatoSearch)
               autoComplete="off"
             />
           </div>
-      
-            <button
-              type="submit"
-              className="flex bg-segundario-700 text-white justify-center items-center gap-2 rounded-lg py-1 px-3"
-            >
-              <FaMagnifyingGlass />
-              <span>Buscar</span>
-            </button>
-        
+
+          <button
+            type="submit"
+            className="flex bg-segundario-700 text-white justify-center items-center gap-2 rounded-lg py-1 px-3"
+          >
+            <FaMagnifyingGlass />
+            <span>Buscar</span>
+          </button>
         </form>
         <div
           onBlur={() => setActivarFiltradoContinentes(false)}
@@ -247,24 +247,29 @@ console.log(valorDatoSearch)
       </div>
 
       <ul className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 gap-5 pb-5 z-60">
-        {valorDatoSearch.slice(0, 15).map((country) => (
+        {valorDatoSearch.slice(0, 24).map((country) => (
           <li
             onClick={() => toggleDrawer(country)}
             key={country.code}
-            className="flex flex-col items-center"
+            className="flex flex-col items-center overflow-hidden "
           >
             <ImgPais pais={country.name} />
             <div className="flex gap-2 md:gap-4 w-[280px] sm:w-[300px] bg-white cursor-pointer p-3 rounded-b-2xl">
-              <picture className="flex items-center min-w-14">
-                <img
-                  src={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png`}
-                  alt={`Bandera de ${country.name}`}
-                  width="50"
-                  height="40"
-                />
+              <picture className="flex items-center  ">
+                {country.code ? (
+                  <img
+                    src={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png`}
+                    alt={`Bandera de ${country.name}`}
+                    width="50"
+                    height="40"
+                    className="min-w-10 h-auto"
+                  />
+                ) : (
+                  <div className="w-10 h-[40px] bg-gray-300" />
+                )}
               </picture>
 
-              <div className="">
+              <div className=" w-[280px] sm:w-[300px]">
                 <strong className="text-segundario-700 text-xl truncate whitespace-nowrap overflow-hidden">
                   {country.name}
                 </strong>
