@@ -1,7 +1,7 @@
 
 import PropTypes from 'prop-types';
 import { IoClose } from "react-icons/io5";
-function IdHome({ country, setIsDrawerOpen, ImgPais }) {
+function IdHome({ country, setIsDrawerOpen, ImgPais,ImgBandera }) {
   if (!country || !country.code) return null;
 
   return (
@@ -12,15 +12,7 @@ function IdHome({ country, setIsDrawerOpen, ImgPais }) {
         
       <ImgPais pais={country.name} />
       <div className="flex gap-1  bg-white rounded-2xl py-2">
-              <picture className="flex items-center min-w-14">
-                <img
-                  src={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png`}
-                  alt={`Bandera de ${country.name}`}
-                  width="50"
-                  height="40"
-                  className='rounded-lg'
-                />
-              </picture>
+              <ImgBandera country={country}/>
 
               <div  className="">
                 <strong className="text-segundario-700 text-xl truncate whitespace-nowrap overflow-hidden">

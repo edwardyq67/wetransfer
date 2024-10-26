@@ -73,6 +73,24 @@ const ImgPais = ({ pais }) => {
     </div>
   );
 };
+const ImgBandera = ({ country }) => {
+  return (
+    <picture className="flex items-center">
+      {country.code ? (
+        <img
+          src={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png`}
+          alt={`Bandera de ${country.name}`}
+          width="50"
+          height="40"
+          className="w-10 h-auto"
+        />
+      ) : (
+        <div className="w-10 h-[40px] bg-gray-300" />
+      )}
+    </picture>
+  );
+  
+};
 
 function Home() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -255,19 +273,7 @@ function Home() {
           >
             <ImgPais pais={country.name} />
             <div className="flex gap-2 md:gap-4 w-[280px] sm:w-[300px] bg-white cursor-pointer p-3 rounded-b-2xl">
-              <picture className="flex items-center  ">
-                {country.code ? (
-                  <img
-                    src={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png`}
-                    alt={`Bandera de ${country.name}`}
-                    width="50"
-                    height="40"
-                    className="min-w-10 h-auto"
-                  />
-                ) : (
-                  <div className="w-10 h-[40px] bg-gray-300" />
-                )}
-              </picture>
+              <ImgBandera country={country}/>
 
               <div className=" w-[280px] sm:w-[300px]">
                 <strong className="text-segundario-700 text-xl truncate whitespace-nowrap overflow-hidden">
@@ -290,6 +296,7 @@ function Home() {
           country={selectedCountry}
           setIsDrawerOpen={setIsDrawerOpen}
           ImgPais={ImgPais}
+          ImgBandera={ImgBandera}
         />
       </div>
     </div>
