@@ -6,7 +6,7 @@ function NavBar({setIsOpen}) {
     {
       id: 1,
       title: "Home",
-      path: "/",
+      path: "/home",
       exact: true,
     },
     {

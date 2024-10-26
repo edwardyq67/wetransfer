@@ -45,11 +45,11 @@ const ImgPais = ({ pais }) => {
         const res = await axios.get(
           `https://pixabay.com/api/?key=${key}&q=${pais}&image_type=photo`
         );
-        // Asegúrate de que haya resultados antes de acceder
+      
         if (res.data.hits.length > 0) {
           setImgDelPais(res.data.hits[3].webformatURL);
         } else {
-          setImgDelPais(""); // O una imagen por defecto
+          setImgDelPais(""); 
         }
       } catch (error) {
         console.error("Error fetching image:", error);
@@ -75,7 +75,7 @@ const ImgPais = ({ pais }) => {
 };
 
 function Home() {
-  // offcanva
+ 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [activarFiltradoContinentes, setActivarFiltradoContinentes] =
@@ -87,11 +87,11 @@ function Home() {
   };
   const [valorPais, setValosPais] = useState("");
   const { loading, error, data } = useQuery(GET_COUNTRIES);
-
+  const [valorDatoSearch,setValorDatoSearch]=useState([])
   const filtroCotinente = [
     {
       code: "EU",
-      name: "Europa",
+      name: "Europe",
       img: Europa,
     },
     {
@@ -101,21 +101,21 @@ function Home() {
     },
     {
       code: "AM",
-      name: "América",
+      name: "South America",
       img: America,
     },
     {
       code: "OC",
-      name: "Oceanía",
+      name: "Oceania",
       img: Oceania,
     },
     {
       code: "AF",
-      name: "África",
+      name: "Africa",
       img: Africa,
     },
   ];
-  // filtrado Continente
+
   const [selectedContinents, setSelectedContinents] = useState([]);
   const handleContinentClick = (code) => {
     setSelectedContinents((prevSelected) =>
@@ -124,15 +124,26 @@ function Home() {
         : [...prevSelected, code]
     );
   };
-  const nuevoValorData = data
-    ? data.countries.filter(
-        (country) =>
-          // Filtra países cuyo nombre contiene el valor de búsqueda y que pertenecen a los continentes seleccionados
-          country.name.toLowerCase().includes(valorPais.toLowerCase()) &&
-          (selectedContinents.length === 0 ||
-            selectedContinents.includes(country.continent.code))
-      )
-    : [];
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const nuevoValorData =  data
+      ? data.countries.filter(
+          (country) =>
+            country.name.toLowerCase().includes(valorPais.toLowerCase()) &&
+            (selectedContinents.length === 0 ||
+              selectedContinents.includes(country.continent.code))
+        )
+      : [];
+    
+      setValorDatoSearch(nuevoValorData); // Aquí puedes manejar los datos como prefieras
+  };
+  useEffect(() => {
+    // Verifica que data y data.countries estén definidos
+    if (data && data.countries) {
+      setValorDatoSearch(data.countries);
+    }
+  }, [data]);
+
   const stadoFiltadorContinente = () => {
     setActivarFiltradoContinentes(true);
   };
@@ -150,7 +161,6 @@ function Home() {
     };
   }, []);
 
-  // Manejar estados de carga y error
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
@@ -161,7 +171,7 @@ function Home() {
         onClick={() => stadoFiltadorContinente()}
         className="relative w-full md:w-[60vw] mx-auto"
       >
-        <form className="flex items-center bg-white shadow-lg rounded-2xl justify-between px-4 py-2 ">
+        <form onSubmit={handleSubmit} className="flex items-center bg-white shadow-lg rounded-2xl justify-between px-4 py-2 ">
           <div className="flex flex-col justify-center">
             <label
               htmlFor="pais"
@@ -180,7 +190,7 @@ function Home() {
               autoComplete="off"
             />
           </div>
-          <div className="">
+      
             <button
               type="submit"
               className="flex bg-segundario-700 text-white justify-center items-center gap-2 rounded-lg py-1 px-3"
@@ -188,7 +198,7 @@ function Home() {
               <FaMagnifyingGlass />
               <span>Buscar</span>
             </button>
-          </div>
+        
         </form>
         <div
           onBlur={() => setActivarFiltradoContinentes(false)}
@@ -235,7 +245,7 @@ function Home() {
       </div>
 
       <ul className="grid 2xl:grid-cols-4 xl:grid-cols-3 sm:grid-cols-2 gap-5 pb-5 z-60">
-        {nuevoValorData.slice(0, 15).map((country) => (
+        {valorDatoSearch.slice(0, 15).map((country) => (
           <li
             onClick={() => toggleDrawer(country)}
             key={country.code}
@@ -265,7 +275,7 @@ function Home() {
         ))}
       </ul>
       <div
-        className={`fixed bottom-0 right-0 z-40 h-screen sm:h-[90vh] overflow-y-hidden p-4 md:px-6 transition-transform rounded-tl-lg bg-white w-80 ${
+        className={`fixed bottom-0 right-0 z-40 h-[100vh] sm:h-[90vh] overflow-y-hidden p-4 md:px-6 transition-transform rounded-tl-lg bg-white w-80 ${
           isDrawerOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
